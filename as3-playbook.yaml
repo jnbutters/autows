@@ -22,3 +22,11 @@
         status_code: 200
         body_format: json
         validate_certs: no
+        register: as3_response
+
+    - name: DEBUG OUTPUT AS3 RESPONSE
+      debug:
+      msg: "{{as3_response}}"   
+    - name: DEBUG OUTPUT AS3 RESPONSE
+      debug:
+      msg: "Content Length = {{as3_response.content_length}}"
