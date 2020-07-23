@@ -1,0 +1,53 @@
+---
+
+- name: Using AS3 to deploy a configuration
+  hosts: all
+  connection: local
+  vars:
+    provider:
+      password: "{{ bigip_password }}"
+      server: 18.132.111.108
+      user: "{{ bigip_user }}"
+      validate_certs: False
+ 
+  vars_files:
+    - ../../creds/cred2.yaml
+
+  vars_prompt:
+
+    - name: TENANT
+      prompt: "What is the tenant name? "
+      private: no
+
+    - name: VIP_ADDRESS1
+      prompt: "What is the virtual IP address 1? "
+      private: no  
+
+    - name: VIP_ADDRESS2
+      prompt: "What is the virtual IP address 2? "
+      private: no  
+
+    - name: SERVER_ADDRESS1
+      prompt: "What is the Server IP address 1? "
+      private: no  
+
+    - name: SERVER_ADDRESS2
+      prompt: "What is the Server IP address 2? "
+      private: no  
+
+    - name: SERVER_ADDRESS3
+      prompt: "What is the Server IP address 3? "
+      private: no  
+
+    - name: SERVER_ADDRESS4
+      prompt: "What is the Server IP address 4? "
+      private: no  
+
+  tasks:
+
+      - name: Deploy a simple HTTP application
+        bigip_appsvcs_extension:
+          content: "{{ lookup('template', './simple-as3.j2') }}"
+          state: present
+          provider: "{{ provider }}"
+        delegate_to: localhost
